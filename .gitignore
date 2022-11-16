@@ -1,0 +1,11 @@
+contracts/.placeholder
+test/.placeholder
+migrations/.placeholder
+
+build
+
+node_modules
+
+contracts/.gitkeep
+test/.gitkeep
+migrations/.gitignore

@@ -1,0 +1,398 @@
+@import url(//fonts.googleapis.com/css?family=Vibur);
+
+:root {
+  --oxford-blue: hsla(213, 96%, 11%, 1);
+  --black-coral: hsla(212, 17%, 33%, 1);
+  --morning-blue: hsla(176, 15%, 57%, 1);
+  --dark-sea-green: hsla(103, 31%, 67%, 1);
+  --granny-smith-apple: hsla(90, 49%, 75%, 1);
+  --granny-smith-apple-bright: hsla(90, 80%, 90%, 1);
+  --oxford-blue-hex: #011937;
+  --black-coral-hex: #465362;
+  --morning-blue-hex: #81a2a0;
+  --dark-sea-green-hex: #a0c591;
+  --granny-smith-apple-hex: #bfdea0;
+}
+
+@font-face {
+  font-family: FiraCode;
+  src: url("./fonts/FiraCode.ttf");
+}
+
+@font-face {
+  font-family: Simplifica;
+  src: url("./fonts/Simplifica.ttf");
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--oxford-blue);
+}
+
+.logo-header {
+  margin-bottom: 20px;
+  background-color: #1c2541;
+  box-shadow: 0 0 20px 4px rgba(255, 68, 68, 0.4);
+  margin-bottom: 10vh;
+}
+
+.logo {
+  text-align: center;
+  width: 65%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.logo * {
+  font-size: 3rem;
+  font-weight: 400;
+  font-family: "Vibur";
+  color: #fee;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff4444, 0 0 0.5em #ff4444,
+    0 0 0.1em #ff4444, 0 10px 3px #000;
+}
+
+.logo b span {
+  animation: blink linear infinite 2s;
+}
+
+.logo b span:nth-of-type(2) {
+  animation: blink linear infinite 4s;
+}
+
+.text {
+  color: var(--dark-sea-green);
+  font-family: FiraCode, Consolas, "Courier New", Courier, monospace;
+}
+
+.card {
+  position: relative;
+  padding: 2rem 2rem 1rem 2rem;
+  background-color: var(--black-coral);
+  color: var(--oxford-blue-hex);
+  border-radius: 32px;
+  font-family: FiraCode;
+}
+
+.card-header {
+  font-size: x-large;
+  font-weight: bolder;
+  padding-bottom: 1rem;
+}
+
+.card-body {
+  font-size: large;
+  font-weight: bold;
+  padding-bottom: 1rem;
+}
+
+.card-footer {
+  font-size: medium;
+  font-weight: normal;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.p-rel {
+  position: relative;
+}
+
+.p-abs {
+  position: absolute;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.a-f-cen {
+  justify-content: center;
+  align-items: center;
+}
+
+.f-col {
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.f-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.text-cen {
+  text-align: center;
+}
+
+.text-le {
+  text-align: left;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.m-3 {
+  margin: 3rem;
+}
+
+.w-80-p {
+  width: 80%;
+}
+
+.t-no {
+  font-size: normal;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.btn {
+  position: relative;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  background-color: transparent;
+  transition: all 200ms;
+  font-family: FiraCode;
+}
+
+.btn.simple {
+  box-shadow: 0 0 0 2px var(--dark-sea-green);
+  color: var(--dark-sea-green);
+}
+
+.btn.simple:hover {
+  box-shadow: 0 0 0 2px var(--morning-blue);
+  background-color: var(--morning-blue);
+  color: var(--oxford-blue);
+}
+
+.btn.simple:active {
+  box-shadow: 0 0 0 2px var(--granny-smith-apple);
+  background-color: var(--granny-smith-apple);
+  color: var(--oxford-blue);
+}
+
+.btn.simple:hover::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 115%;
+  height: 132.5%;
+  top: 50%;
+  left: 50%;
+  border-radius: 1rem;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px var(--morning-blue);
+  transition: all 200ms;
+}
+
+.btn.simple:active::after {
+  box-shadow: 0 0 0 2px var(--granny-smith-apple);
+}
+
+.input-holder {
+  display: block;
+  float: left;
+  position: fixed;
+  margin-block: 1rem;
+}
+
+.input-field {
+  border: 0;
+  padding: 7px 0;
+  outline: none;
+  background-color: var(--black-coral);
+  border-bottom: 1px solid var(--oxford-blue-hex);
+}
+
+.input-field ~ .focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #bfdea0;
+  box-shadow: none;
+  transition: 0.4s;
+}
+
+.input-field:focus ~ .focus-border {
+  width: 100%;
+  box-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #bfdea0, 0 0 0.5em #bfdea0,
+    0 0 0.1em #bfdea0;
+  transition: 0.4s;
+  left: 0;
+}
+
+.input.simple {
+  max-width: 70%;
+  padding: 0.1rem;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  background-color: transparent;
+}
+
+.min-w-224 {
+  min-width: 224px;
+}
+
+.modal-overlay {
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  overflow-x: hidden;
+}
+
+.modal {
+  position: relative;
+  padding: 2rem 2rem 1rem 2rem;
+  background-color: var(--black-coral);
+  color: var(--oxford-blue-hex);
+  border-radius: 32px;
+  font-family: FiraCode;
+}
+
+.modal-header {
+  font-size: x-large;
+  padding-bottom: 1rem;
+}
+
+.modal-footer {
+  font-size: small;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.modal-close-wrapper {
+  position: absolute;
+  height: 80px;
+  width: 100%;
+  left: 0;
+  transform: translateY(-1rem);
+}
+
+.modal-close {
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: var(--dark-sea-green);
+  transition: background-color 500ms;
+}
+
+.modal-close > img {
+  width: 100%;
+  height: 100%;
+  filter: invert(30%);
+  user-select: none;
+}
+
+.modal-close::after {
+  content: "";
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: all 500ms;
+}
+
+.modal-close:hover::after,
+#modal-close:focus::after {
+  box-shadow: 0 0 0 3px var(--morning-blue);
+}
+
+.modal-close:hover {
+  background-color: var(--morning-blue);
+}
+
+.modal-close:active {
+  background-color: var(--granny-smith-apple);
+}
+
+.modal-close:active::after {
+  box-shadow: 0 0 0 3px var(--granny-smith-apple);
+}
+
+.modal-fadeIn {
+  animation: fadeIn 200ms ease-in 0ms 1 forwards;
+}
+
+.modal-fadeOut {
+  animation: fadeOut 200ms ease-in 0ms 1 forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79% {
+    color: #333;
+  }
+  80% {
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+}
