@@ -68,13 +68,10 @@ contract Betting {
 
     bool private resultDeclared = false;
 
-    modifier _restricted() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    modifier ongoing() {
-        require(currentEvent.status == EventStatus.ONGOING, "Event Ongoing");
+    modifier expire() {
+        if (currentEvent.status == EventStatus.BETTING)
+            if (block.timestamp >= currentEvent.startTime)
+                currentEvent.status = EventStatus.ONGOING;
         _;
     }
 
@@ -83,6 +80,16 @@ contract Betting {
             currentEvent.status == EventStatus.BETTING,
             "No Longer Accepting Bets"
         );
+        _;
+    }
+
+    modifier _restricted() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    modifier ongoing() {
+        require(currentEvent.status == EventStatus.ONGOING, "Event Ongoing");
         _;
     }
 
@@ -122,7 +129,7 @@ contract Betting {
         owner = payable(msg.sender);
     }
 
-    function startEvent() public _restricted {
+    function startEvent() public payable _restricted ongoing {
         currentEvent.status = EventStatus.ONGOING;
     }
 
@@ -192,9 +199,6 @@ contract Betting {
         uint256 startTime,
         uint256 settlingTime
     ) public payable ended {
-        if (block.timestamp >= currentEvent.startTime)
-            currentEvent.status = EventStatus.ONGOING;
-
         if (bytes(currentEvent.name).length > 0) pastEvents.push(currentEvent);
 
         currentEvent.eventId = pastEvents.length;
@@ -358,17 +362,10 @@ contract Betting {
     function placeBet(uint256 participantId)
         public
         payable
+        expire
         expired
         isParticipant(participantId)
     {
-        if (block.timestamp >= currentEvent.startTime) {
-            currentEvent.status = EventStatus.ONGOING;
-            require(
-                currentEvent.status == EventStatus.BETTING,
-                "No Longer Accepting Bets"
-            );
-        }
-
         require(checkAmount(msg.value, participantId), "Amount Insufficient");
 
         uint256 gambleId = totalGambles;
@@ -398,5 +395,13 @@ contract Betting {
 
         currentEvent.participants[participantId].betsPlaced += 1;
         collected_betting_value += msg.value;
+    }
+
+    function transferOwnership(address newOwner) public payable _restricted {
+        owner = payable(newOwner);
+    }
+
+    function destroyContract() public payable _restricted ended {
+        selfdestruct(owner);
     }
 }
