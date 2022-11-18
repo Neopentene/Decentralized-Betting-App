@@ -68,13 +68,6 @@ contract Betting {
 
     bool private resultDeclared = false;
 
-    modifier expire() {
-        if (currentEvent.status == EventStatus.BETTING)
-            if (block.timestamp >= currentEvent.startTime)
-                currentEvent.status = EventStatus.ONGOING;
-        _;
-    }
-
     modifier expired() {
         require(
             currentEvent.status == EventStatus.BETTING,
@@ -362,10 +355,14 @@ contract Betting {
     function placeBet(uint256 participantId)
         public
         payable
-        expire
         expired
         isParticipant(participantId)
     {
+        if (block.timestamp >= currentEvent.startTime) {
+            currentEvent.status = EventStatus.ONGOING;
+            require(false, "No Longer Accepting Bets");
+        }
+
         require(checkAmount(msg.value, participantId), "Amount Insufficient");
 
         uint256 gambleId = totalGambles;
