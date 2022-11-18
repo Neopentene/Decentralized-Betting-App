@@ -122,7 +122,7 @@ contract Betting {
         owner = payable(msg.sender);
     }
 
-    function forciblyStartEvent() public _restricted {
+    function startEvent() public _restricted {
         currentEvent.status = EventStatus.ONGOING;
     }
 
@@ -166,7 +166,10 @@ contract Betting {
     }
 
     function getBetsPlaced() public view returns (Bet memory) {
-        return bets[address(msg.sender)];
+        Bet memory bet = bets[msg.sender];
+        if (bet.eventId == currentEvent.eventId)
+            return bets[address(msg.sender)];
+        return Bet(false, currentEvent.eventId, new uint256[](0));
     }
 
     function getGambleDetails(uint256 gambleId)
@@ -223,11 +226,6 @@ contract Betting {
 
     function getDeadline() public view settling returns (uint256) {
         return currentEvent.endTime + currentEvent.settlingTime;
-    }
-
-    function eventShouldSettle() public view _restricted returns (bool) {
-        return (block.timestamp >=
-            (currentEvent.endTime + currentEvent.settlingTime));
     }
 
     function clearParticipants() public payable _restricted ended {
@@ -344,12 +342,10 @@ contract Betting {
         if (block.timestamp >= currentEvent.startTime)
             currentEvent.status = EventStatus.ONGOING;
 
-        address gambler = address(msg.sender);
+        uint256[] storage gambleIds = bets[msg.sender].gambleIds;
 
-        Bet memory bet = bets[gambler];
-
-        for (uint256 i = 0; i < bet.gambleIds.length; i++) {
-            uint256 gambleId = bet.gambleIds[i];
+        for (uint256 i = 0; i < gambleIds.length; i++) {
+            uint256 gambleId = gambleIds[i];
             if (gambles[gambleId].status == Status.WIN)
                 gambles[gambleId].claimed = true;
         }
@@ -367,11 +363,11 @@ contract Betting {
         isParticipant(participantId)
     {
         if (block.timestamp >= currentEvent.startTime) {
+            currentEvent.status = EventStatus.ONGOING;
             require(
                 currentEvent.status == EventStatus.BETTING,
                 "No Longer Accepting Bets"
             );
-            currentEvent.status = EventStatus.ONGOING;
         }
 
         require(checkAmount(msg.value, participantId), "Amount Insufficient");
@@ -388,6 +384,12 @@ contract Betting {
         );
 
         Bet storage bet = bets[msg.sender];
+
+        if (bet.eventId != currentEvent.eventId) {
+            delete bet.gambleIds;
+            bet.eventId = currentEvent.eventId;
+        }
+
         bet.exists = true;
         bet.gambleIds.push(gambleId);
 
