@@ -167,8 +167,7 @@ contract Betting {
 
     function getBetsPlaced() public view returns (Bet memory) {
         Bet memory bet = bets[msg.sender];
-        if (bet.eventId == currentEvent.eventId)
-            return bets[address(msg.sender)];
+        if (bet.eventId == currentEvent.eventId) return bets[msg.sender];
         return Bet(false, currentEvent.eventId, new uint256[](0));
     }
 
