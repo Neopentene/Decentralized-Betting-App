@@ -8,7 +8,7 @@ const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 
 async function setEvent(account) {
   await contract.methods
-    .setEvent("Test Event", "Test Description", 600, 12000)
+    .setEvent("Test Event", "Test Description", 432000, 360)
     .send({
       from: account,
       gas: 1282834,

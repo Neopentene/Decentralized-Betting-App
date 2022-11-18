@@ -82,6 +82,9 @@ function buildEventDivs(getElement = false) {
       );
     }
 
+    let startTime = new Date(eventDetails.startTime * 1000);
+    let endTime = new Date(eventDetails.startTime * 1000);
+
     eventDetailsDiv.innerHTML = `
     <div id="name" class="text-cen">${eventDetails.name}</div>
     <br/>
@@ -89,14 +92,14 @@ function buildEventDivs(getElement = false) {
     <br/>
     <div id="start-time" class="text-cen">
         <p class="text">Start Time</p>
-        <p>${new Date(eventDetails.startTime * 1000).getDate()}</p>
+        <p>${`${startTime.getDate()}/${startTime.getMonth()}/${startTime.getFullYear()}`}</p>
     </div>
     <br/>
     <div id="end-time">
         <p class="text">End Time</p>
         <p>${
           eventDetails.endTime
-            ? new Date(eventDetails.endTime * 1000).getDate()
+            ? `${`${endTime.getDate()}/${endTime.getMonth()}/${endTime.getFullYear()}`}`
             : "Not Yet Declared"
         }</p>
     </div>
@@ -209,7 +212,6 @@ placeBetButton.addEventListener("click", async () => {
     document
       .getElementById(`bet-${participant.name}`)
       .addEventListener("click", async () => {
-        document.body.style.overflow = "hidden";
         hidden++;
         openModal(
           `modal-bet-${participant.name}`,
@@ -229,7 +231,7 @@ placeBetButton.addEventListener("click", async () => {
           .addEventListener("click", () => {
             openModal(
               `modal-amount-${participant.name}`,
-              `<div class="text-cen bold">Amount(WEI)</div>`,
+              `<div class="text-cen bold" style="margin-bottom: 1.5rem">Amount(WEI)</div>`,
               `
               <div class="d-flex a-f-cen f-col">
                 <div class="input-holder">

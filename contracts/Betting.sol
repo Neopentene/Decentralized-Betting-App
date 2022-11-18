@@ -126,6 +126,10 @@ contract Betting {
         currentEvent.status = EventStatus.ONGOING;
     }
 
+    function forciblyStartEvent() public payable _restricted {
+        currentEvent.status = EventStatus.ONGOING;
+    }
+
     function checkAmount(uint256 amount, uint256 participantId)
         public
         view

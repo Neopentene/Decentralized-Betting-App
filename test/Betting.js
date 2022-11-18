@@ -100,26 +100,41 @@ contract("Betting", (accounts) => {
     await instance.placeBet(1, {
       from: accounts[0],
       gas: 672197,
-      value: 10000000,
+      value: "4000000122300002910",
     });
 
     await instance.placeBet(0, {
       from: accounts[2],
       gas: 672197,
-      value: 10000000,
+      value: "100200000000002992",
     });
 
-    await instance.placeBet(1, {
-      from: accounts[2],
-      gas: 672197,
-      value: 10000000,
-    });
+    // let accountsBetting = [
+    //   { account: 0, participant: 0, amount: "4000000122300002910" },
+    //   { account: 0, participant: 0, amount: "100200000000002992" },
+    // ];
 
-    await instance.placeBet(1, {
-      from: accounts[1],
-      gas: 672197,
-      value: 1000000,
-    });
+    for (let i = 0; i < 40; i++) {
+      let accountNumber = Math.floor(Math.random() * (6 - 1) + 1);
+      let participant = Math.floor(Math.random() * 2);
+      let amount = Math.floor(
+        Math.random() * (99999999999999 - 10000000320) + 10000000320
+      );
+
+      // accountsBetting.push({
+      //   account: accountNumber,
+      //   participant: participant,
+      //   amount: amount,
+      // });
+
+      await instance.placeBet(participant, {
+        from: accounts[accountNumber],
+        gas: 672197,
+        value: amount,
+      });
+    }
+
+    // console.log("Accounts in Bet:", accountsBetting);
 
     // console.log("Bets Added");
   });
@@ -173,8 +188,13 @@ contract("Betting", (accounts) => {
     const totalBettingValue = BigInt(await instance.getBetsTally());
     const payableAmount = BigInt(await instance.getPayableAmount());
 
+    // console.log("Total Betting Value:", totalBettingValue);
+    // console.log("Payable Amount:", payableAmount);
+
     share = BigInt(totalBettingValue - payableAmount);
     share = (40n * share) / 100n;
+
+    // console.log("Share Amount:", share);
 
     console.log("Before Share Transfer", await web3.eth.getBalance(OWNER));
 
@@ -270,10 +290,10 @@ contract("Betting", (accounts) => {
       console.log(`Index ${index}:`, gamble.status == "1");
 
       if (gamble.status == "1" && gamble.claimed) {
-        console.log(
-          "Before Winning:",
-          await web3.eth.getBalance(gamble.gambler)
-        );
+        // console.log(
+        //   "Before Winning:",
+        //   await web3.eth.getBalance(gamble.gambler)
+        // );
 
         let winnings = BigInt(gamble.amount);
         winnings = winnings - (winnings * betsPlaced) / totalBets;
@@ -283,10 +303,10 @@ contract("Betting", (accounts) => {
           gas: 98238,
         });
 
-        console.log(
-          "After Winning:",
-          await web3.eth.getBalance(gamble.gambler)
-        );
+        // console.log(
+        //   "After Winning:",
+        //   await web3.eth.getBalance(gamble.gambler)
+        // );
       }
     }
 

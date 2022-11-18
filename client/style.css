@@ -218,6 +218,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 0;
   padding: 7px 0;
   outline: none;
+  color: var(--granny-smith-apple);
   background-color: var(--black-coral);
   border-bottom: 1px solid var(--oxford-blue-hex);
 }
